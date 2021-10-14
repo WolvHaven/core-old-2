@@ -26,7 +26,8 @@ dependencies {
     compileOnlyApi(libs.bundles.adventure)
 
     api(libs.bundles.cloud)
-    api(libs.interfaces)
+// Naughty interfaces includes paper 1.16.5 - exclude
+//    api(libs.interfaces)
 
     // Paper
     compileOnlyApi(libs.paper)
