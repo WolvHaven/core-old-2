@@ -24,7 +24,7 @@ import org.spongepowered.configurate.objectmapping.ConfigSerializable
 import java.io.File
 
 class Config<T>(private val type: Class<T>, private val file: File) {
-    private val loader : HoconConfigurationLoader
+    private val loader: HoconConfigurationLoader
     private var configNode: CommentedConfigurationNode
     var config: T
 

@@ -44,36 +44,38 @@ class Core(private val plugin: WhCorePlugin) : WhModule {
             it.commandBuilder("minimessage", "mm")
         }
 
-        plugin.commandManager.buildCommand(base) { b -> b
-            .literal("reload")
-            .permission(permissionAdmin)
-            .handler {
-                plugin.reload()
-                it.sender.sendMessage(prefixed(text("Reloaded!")))
-            }
+        plugin.commandManager.buildCommand(base) { b ->
+            b
+                .literal("reload")
+                .permission(permissionAdmin)
+                .handler {
+                    plugin.reload()
+                    it.sender.sendMessage(prefixed(text("Reloaded!")))
+                }
         }
 
-        plugin.commandManager.buildCommand(mmBase) { b -> b
-            .literal("broadcast")
-            .argument(StringArgument.quoted("content"))
-            .permission("whcore.broadcast")
-            .flag(CommandFlag.newBuilder("ding"))
-            .flag(CommandFlag.newBuilder("perm").withArgument(StringArgument.of<CommandSender>("perm")))
-            .flag(CommandFlag.newBuilder("staff"))
-            .handler { c ->
-                val content = MiniMessage.get().parse(c["content"])
+        plugin.commandManager.buildCommand(mmBase) { b ->
+            b
+                .literal("broadcast")
+                .argument(StringArgument.quoted("content"))
+                .permission("whcore.broadcast")
+                .flag(CommandFlag.newBuilder("ding"))
+                .flag(CommandFlag.newBuilder("perm").withArgument(StringArgument.of<CommandSender>("perm")))
+                .flag(CommandFlag.newBuilder("staff"))
+                .handler { c ->
+                    val content = MiniMessage.get().parse(c["content"])
 
-                val playerCollection = if (c.flags().isPresent("staff")) Bukkit.getOnlinePlayers().filter { it.isStaff }
-                else if (c.flags().getValue<String>("perm").isPresent) Bukkit.getOnlinePlayers().filter { it.hasPermission(c.flags().getValue<String>("perm").orElse("aboajfhawlkdfalfw")) }
-                else Bukkit.getOnlinePlayers()
+                    val playerCollection = if (c.flags().isPresent("staff")) Bukkit.getOnlinePlayers().filter { it.isStaff }
+                    else if (c.flags().getValue<String>("perm").isPresent) Bukkit.getOnlinePlayers().filter { it.hasPermission(c.flags().getValue<String>("perm").orElse("aboajfhawlkdfalfw")) }
+                    else Bukkit.getOnlinePlayers()
 
-                val players = playerCollection.toMutableSet().playerCollection
+                    val players = playerCollection.toMutableSet().playerCollection
 
-                players.sendMessage(content)
-                Bukkit.getServer().consoleSender.sendMessage(content)
+                    players.sendMessage(content)
+                    Bukkit.getServer().consoleSender.sendMessage(content)
 
-                if (c.flags().isPresent("ding")) players.playSound(Sounds.DING.sound)
-            }
+                    if (c.flags().isPresent("ding")) players.playSound(Sounds.DING.sound)
+                }
         }
     }
 }

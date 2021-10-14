@@ -32,10 +32,10 @@ fun prefix(type: Component? = null): Component {
             .append(type.colorIfAbsent(GOLD)).append(text("]"))
 }
 
-fun prefixed(component: Component) : Component {
+fun prefixed(component: Component): Component {
     return prefixed(null, component)
 }
 
-fun prefixed(prefixType: Component? = null, main: Component) : Component {
+fun prefixed(prefixType: Component? = null, main: Component): Component {
     return empty().append(prefix(prefixType)).append(space()).append(main)
 }

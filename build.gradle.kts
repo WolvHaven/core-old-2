@@ -20,6 +20,7 @@ plugins {
     kotlin("jvm") version "1.5.30" apply false
     alias(libs.plugins.shadow) apply false
     alias(libs.plugins.runpaper) apply false
+    alias(libs.plugins.ktlint) apply false
 }
 
 allprojects {
@@ -43,4 +44,9 @@ subprojects {
     apply(plugin = "kotlin")
     apply<JavaLibraryPlugin>()
     apply<com.github.jengelman.gradle.plugins.shadow.ShadowBasePlugin>()
+    apply<org.jlleitschuh.gradle.ktlint.KtlintPlugin>()
+
+    configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
+        disabledRules.add("no-wildcard-imports")
+    }
 }

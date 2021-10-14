@@ -46,41 +46,45 @@ class TrainDestroy(plugin: WhCorePlugin) : WhModule {
     }
 
     val permRoot = "${net.wolvhaven.core.plugin.WhCorePlugin.permRoot}.traindestroy"
-    val permissionDelay = "${permRoot}.delay"
-    val permissionNow = "${permRoot}.now"
+    val permissionDelay = "$permRoot.delay"
+    val permissionNow = "$permRoot.now"
 
     var nextRun: Instant = Instant.now().plus(config().firstRun, ChronoUnit.MINUTES)
     var hasNotified = false
     val timeRemaining: String get() = minuteSecond.format(nextRun.minus(System.currentTimeMillis(), ChronoUnit.MILLIS).atOffset(ZoneOffset.UTC))
     val trainsWillBeDestroyedIn: TextComponent
         get() = text("Trains will be destroyed in ")
-        .append(text(timeRemaining, Style.style(TextDecoration.BOLD)))
+            .append(text(timeRemaining, Style.style(TextDecoration.BOLD)))
 
     init {
         val base: CommandCreatorFunction<CommandSender> = {
             it.commandBuilder("traindestroy")
         }
 
-        plugin.commandManager.buildCommand(base) { b -> b
+        plugin.commandManager.buildCommand(base) { b ->
+            b
                 .literal("now")
                 .permission(permissionNow)
                 .handler {
                     nextRun = Instant.now().minus(1, ChronoUnit.MILLIS)
                 }
         }
-        plugin.commandManager.buildCommand(base) { b -> b
+        plugin.commandManager.buildCommand(base) { b ->
+            b
                 .literal("info", "i", "when")
                 .handler {
-                    it.sender.sendMessage(empty().color(NamedTextColor.GRAY)
-                        .append(prefixed(trainsWillBeDestroyedIn))
-                        .append(newline())
-                        .append(prefixed(text("Train destroy will run every ${config().frequency} minutes")))
-                        .append(newline())
-                        .append(prefixed(text("Train destroy will run ${config().firstRun} minutes after restarts")))
+                    it.sender.sendMessage(
+                        empty().color(NamedTextColor.GRAY)
+                            .append(prefixed(trainsWillBeDestroyedIn))
+                            .append(newline())
+                            .append(prefixed(text("Train destroy will run every ${config().frequency} minutes")))
+                            .append(newline())
+                            .append(prefixed(text("Train destroy will run ${config().firstRun} minutes after restarts")))
                     )
                 }
         }
-        plugin.commandManager.buildCommand(base) { b -> b
+        plugin.commandManager.buildCommand(base) { b ->
+            b
                 .literal("delay")
                 .permission(permissionDelay)
                 .handler {
@@ -109,12 +113,13 @@ class TrainDestroy(plugin: WhCorePlugin) : WhModule {
 
         if (now.isAfter(nextRun.minus(config().warning, ChronoUnit.MINUTES)) && !hasNotified) {
 
-            server.sendMessage(empty().color(NamedTextColor.RED)
-                .append(prefixed(trainsWillBeDestroyedIn))
-                .append(newline())
-                .append(prefixed(text("Please do not board a coming train.")))
-                .append(newline())
-                .append(prefixed(text("Those on trains, please alight at the next platform.")))
+            server.sendMessage(
+                empty().color(NamedTextColor.RED)
+                    .append(prefixed(trainsWillBeDestroyedIn))
+                    .append(newline())
+                    .append(prefixed(text("Please do not board a coming train.")))
+                    .append(newline())
+                    .append(prefixed(text("Those on trains, please alight at the next platform.")))
             )
 
             hasNotified = true
@@ -122,7 +127,7 @@ class TrainDestroy(plugin: WhCorePlugin) : WhModule {
         }
     }
 
-    private fun prefixed(component: Component) : Component {
+    private fun prefixed(component: Component): Component {
         return net.wolvhaven.core.common.util.prefixed(text("TrainDestroy"), component)
     }
 }

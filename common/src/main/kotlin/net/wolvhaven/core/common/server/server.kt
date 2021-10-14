@@ -21,6 +21,6 @@ package net.wolvhaven.core.common.server
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 
-inline fun <reified T: JavaPlugin> getPlugin() = JavaPlugin.getPlugin(T::class.java)
+inline fun <reified T : JavaPlugin> getPlugin() = JavaPlugin.getPlugin(T::class.java)
 
 val server get() = Bukkit.getServer()

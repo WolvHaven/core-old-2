@@ -21,7 +21,6 @@ import com.github.jengelman.gradle.plugins.shadow.relocation.SimpleRelocator
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import xyz.jpenilla.runpaper.RunPaper
 import xyz.jpenilla.runpaper.task.RunServerTask
-import kotlin.reflect.jvm.jvmName
 
 apply<ShadowJavaPlugin>()
 apply(plugin = "com.github.johnrengelman.shadow")

@@ -23,4 +23,4 @@ import net.luckperms.api.platform.PlayerAdapter
 
 inline fun <reified T> LuckPerms.getPlayerAdapter() = this.getPlayerAdapter(T::class.java)
 
-operator fun <T: Any> PlayerAdapter<T>.get(player: T) = this.getUser(player)
+operator fun <T : Any> PlayerAdapter<T>.get(player: T) = this.getUser(player)

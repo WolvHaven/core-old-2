@@ -42,6 +42,7 @@ dependencyResolutionManagement {
 
             alias("shadow").toPluginId("com.github.johnrengelman.shadow").version("7.0.0")
             alias("runpaper").toPluginId("xyz.jpenilla.run-paper").version("1.0.3-SNAPSHOT")
+            alias("ktlint").toPluginId("org.jlleitschuh.gradle.ktlint").version("10.2.0")
 
             alias("configurate").to("org.spongepowered:configurate-hocon:4.1.1")
             alias("slf4j-api").to("org.slf4j:slf4j-api:1.7.32")

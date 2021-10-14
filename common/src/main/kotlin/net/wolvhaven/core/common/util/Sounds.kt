@@ -18,17 +18,25 @@
 
 package net.wolvhaven.core.common.util
 
-import net.kyori.adventure.sound.Sound
 import net.kyori.adventure.key.Key
+import net.kyori.adventure.sound.Sound
 
 enum class Sounds(val sound: Sound) {
-    DING(Sound.sound(Key.key("minecraft:entity.experience_orb.pickup"),
-    Sound.Source.MASTER,
-    1F,
-    1F)),
+    DING(
+        Sound.sound(
+            Key.key("minecraft:entity.experience_orb.pickup"),
+            Sound.Source.MASTER,
+            1F,
+            1F
+        )
+    ),
 
-    CLANG(Sound.sound(Key.key("minecraft:block.anvil.land"),
-    Sound.Source.MASTER,
-    1F,
-    1F))
+    CLANG(
+        Sound.sound(
+            Key.key("minecraft:block.anvil.land"),
+            Sound.Source.MASTER,
+            1F,
+            1F
+        )
+    )
 }

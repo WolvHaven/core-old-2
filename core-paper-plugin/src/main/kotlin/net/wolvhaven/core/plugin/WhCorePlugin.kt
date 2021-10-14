@@ -22,7 +22,6 @@ import net.wolvhaven.core.common.WhPlugin
 import net.wolvhaven.core.plugin.modules.CPolicing
 import net.wolvhaven.core.plugin.modules.Core
 import net.wolvhaven.core.plugin.modules.TrainDestroy
-import net.wolvhaven.core.plugin.modules.TrainPayment
 import net.wolvhaven.core.plugin.modules.WhModule
 import net.wolvhaven.core.plugin.modules.WhPlaceholders
 
@@ -31,13 +30,15 @@ class WhCorePlugin : WhPlugin() {
     private val modules = ArrayList<WhModule>()
 
     override fun enable() {
-        modules.addAll(listOf(
-            TrainDestroy(this),
-            CPolicing(this),
-            Core(this),
+        modules.addAll(
+            listOf(
+                TrainDestroy(this),
+                CPolicing(this),
+                Core(this),
 //            TrainPayment(this)
-            WhPlaceholders(this)
-        ))
+                WhPlaceholders(this)
+            )
+        )
     }
 
     override fun disable() {

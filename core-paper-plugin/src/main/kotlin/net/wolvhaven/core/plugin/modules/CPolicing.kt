@@ -53,47 +53,54 @@ class CPolicing(plugin: WhCorePlugin) : WhModule {
             it.commandBuilder("cpolicing", "cpolice")
         }
 
-        plugin.commandManager.buildCommand(base) { b -> b
-            .literal("enable")
-            .permission(permissionAdmin)
-            .handler {
-                if (config().enabled)
-                    return@handler it.sender.sendMessage(prefixed(text("CPolicing is already enabled!", RED)))
-                config().enabled = true
-                config.save()
-                server.sendMessage(prefixed(text("Community Policing is now enabled.", BLUE)))
-            }
+        plugin.commandManager.buildCommand(base) { b ->
+            b
+                .literal("enable")
+                .permission(permissionAdmin)
+                .handler {
+                    if (config().enabled)
+                        return@handler it.sender.sendMessage(prefixed(text("CPolicing is already enabled!", RED)))
+                    config().enabled = true
+                    config.save()
+                    server.sendMessage(prefixed(text("Community Policing is now enabled.", BLUE)))
+                }
         }
 
-        plugin.commandManager.buildCommand(base) { b -> b
-            .literal("disable")
-            .permission(permissionAdmin)
-            .handler {
-                if (!config().enabled)
-                    return@handler it.sender.sendMessage(prefixed(text("CPolicing is already disabled!", RED)))
-                config().enabled = false
-                config.save()
-                server.sendMessage(prefixed(text("Community Policing is now disabled.", BLUE)))
-            }
+        plugin.commandManager.buildCommand(base) { b ->
+            b
+                .literal("disable")
+                .permission(permissionAdmin)
+                .handler {
+                    if (!config().enabled)
+                        return@handler it.sender.sendMessage(prefixed(text("CPolicing is already disabled!", RED)))
+                    config().enabled = false
+                    config.save()
+                    server.sendMessage(prefixed(text("Community Policing is now disabled.", BLUE)))
+                }
         }
 
-        val vote: CommandModifierFunction<CommandSender> = { it
-            .literal("vote", "v")
-            .permission(permissionVote)
-            .senderType(Player::class.java)
+        val vote: CommandModifierFunction<CommandSender> = {
+            it
+                .literal("vote", "v")
+                .permission(permissionVote)
+                .senderType(Player::class.java)
         }
 
-        plugin.commandManager.buildCommand(base, vote, { b -> b
-            .argument(PlayerArgument.of("target"))
-            .handler {
-                if (!checkEnabled(it.sender)) return@handler
-                val sender = it.sender as Player
-                val target = it.get("target") as Player
-                if (target.hasPermission(permissionExempt))
-                    return@handler it.sender.sendMessage(prefixed(text("${target.name} is exempt from voting!", RED)))
-                vote(sender, target)
+        plugin.commandManager.buildCommand(
+            base, vote,
+            { b ->
+                b
+                    .argument(PlayerArgument.of("target"))
+                    .handler {
+                        if (!checkEnabled(it.sender)) return@handler
+                        val sender = it.sender as Player
+                        val target = it.get("target") as Player
+                        if (target.hasPermission(permissionExempt))
+                            return@handler it.sender.sendMessage(prefixed(text("${target.name} is exempt from voting!", RED)))
+                        vote(sender, target)
+                    }
             }
-        })
+        )
     }
 
     fun vote(sender: Player, target: Player) {
@@ -115,14 +122,15 @@ class CPolicing(plugin: WhCorePlugin) : WhModule {
             if (v.size >= threshold) {
                 k.banPlayer("You have been banned by Community Policing. To report abuse, appeal@wolvhaven.net")
                 logger().info("${k.name} has been banned by CPolice. Voters: ${v.joinToString { it.name }}")
-                server.sendMessage(empty()
-                    .append(prefixed(text("${k.name} has been banned.")))
+                server.sendMessage(
+                    empty()
+                        .append(prefixed(text("${k.name} has been banned.")))
                 )
             }
         }
     }
 
-    fun checkEnabled(sender: CommandSender) : Boolean {
+    fun checkEnabled(sender: CommandSender): Boolean {
         if (config().enabled) return true
         sender.sendMessage(prefixed(text("Community Policing is currently disabled.", RED)))
         if (sender.hasPermission(permissionAdmin))
@@ -130,7 +138,7 @@ class CPolicing(plugin: WhCorePlugin) : WhModule {
         return false
     }
 
-    private fun prefixed(component: Component) : Component {
+    private fun prefixed(component: Component): Component {
         return net.wolvhaven.core.common.util.prefixed(text("CPolicing"), component)
     }
 }

@@ -29,7 +29,7 @@ data class AudienceCollection(val audiences: MutableCollection<Audience>) : Forw
 data class PlayerCollection(val players: MutableCollection<Player>) : ForwardingAudience, MutableCollection<Player> by players {
     override fun audiences() = players
 
-    fun filtered(filter: (Player) -> Boolean) : PlayerCollection = PlayerCollection(players.filter(filter).toMutableSet())
+    fun filtered(filter: (Player) -> Boolean): PlayerCollection = PlayerCollection(players.filter(filter).toMutableSet())
 }
 
 val MutableCollection<Audience>.audienceCollection get() = AudienceCollection(this)

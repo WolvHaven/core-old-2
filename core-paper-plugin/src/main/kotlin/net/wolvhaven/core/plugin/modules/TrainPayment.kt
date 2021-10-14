@@ -31,31 +31,30 @@ class TrainPayment(private val plugin: WhCorePlugin) : WhModule {
     private val permissionTrigger = "$permRoot.trigger"
     private val permissionReceiveLegitimately = "$permRoot.receiveLegitimately"
 
-
     init {
         val base: CommandCreatorFunction<CommandSender> = {
             it.commandBuilder("metropay")
         }
 
-        plugin.commandManager.buildCommand(base) { b -> b
-            .permission(permissionTrigger)
-            .handler {
-                val loc = when (val sender = it.sender) {
-                    is BlockCommandSender -> {
-                        sender.block.location
+        plugin.commandManager.buildCommand(base) { b ->
+            b
+                .permission(permissionTrigger)
+                .handler {
+                    val loc = when (val sender = it.sender) {
+                        is BlockCommandSender -> {
+                            sender.block.location
+                        }
+                        is Player -> {
+                            sender.location
+                        }
+                        else -> {
+                            sender.sendMessage("Command blocks or players only!")
+                            return@handler
+                        }
                     }
-                    is Player -> {
-                        sender.location
-                    }
-                    else -> {
-                        sender.sendMessage("Command blocks or players only!")
-                        return@handler
-                    }
+                    val players =
+                        loc.world.players.map { p -> DistancedPlayer(p, loc.distance(p.location)) }.sortedBy { it }
                 }
-                val players =
-                    loc.world.players.map { p -> DistancedPlayer(p, loc.distance(p.location)) }.sortedBy { it }
-
-            }
         }
     }
 }

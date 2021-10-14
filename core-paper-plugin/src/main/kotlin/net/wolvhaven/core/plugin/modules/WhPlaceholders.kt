@@ -46,7 +46,7 @@ class WhPlaceholders(private val plugin: WhCorePlugin) : PlaceholderExpansion(),
         return when (params) {
             "online" -> {
                 val players = Bukkit.getOnlinePlayers().toMutableSet().playerCollection.canSee(player)
-                var out = "&f${players.unvanished}";
+                var out = "&f${players.unvanished}"
                 if (players.vanished != 0) out += "&b+${players.vanished}"
                 if (players.afk != 0) out += "&7-${players.afk}"
                 out += "&f/${Bukkit.getMaxPlayers()}"

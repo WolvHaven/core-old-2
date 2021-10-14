@@ -32,10 +32,10 @@ object WhVanishNoPacket {
         get() = vanishManager.isVanished(this)
         set(value) = if (value)
             vanishManager.vanish(this, true, false)
-            else vanishManager.reveal(this, true, false)
+        else vanishManager.reveal(this, true, false)
 
     val PlayerCollection.vanished get() = this.count { it.vanished }
     val PlayerCollection.unvanished get() = this.size - this.vanished
 
-    fun PlayerCollection.canSee(viewer: Player) : PlayerCollection = filtered { viewer.canSee(it) }
+    fun PlayerCollection.canSee(viewer: Player): PlayerCollection = filtered { viewer.canSee(it) }
 }
