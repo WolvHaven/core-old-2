@@ -20,6 +20,8 @@ package net.wolvhaven.core.common.util
 
 import net.kyori.adventure.audience.Audience
 import net.kyori.adventure.audience.ForwardingAudience
+import net.wolvhaven.core.common.server.server
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
 data class AudienceCollection(val audiences: MutableCollection<Audience>) : ForwardingAudience, MutableCollection<Audience> by audiences {
@@ -30,7 +32,12 @@ data class PlayerCollection(val players: MutableCollection<Player>) : Forwarding
     override fun audiences() = players
 
     fun filtered(filter: (Player) -> Boolean): PlayerCollection = PlayerCollection(players.filter(filter).toMutableSet())
+    fun withPermission(permission: String) = filtered { it.hasPermission(permission) }
+
+    fun toAudienceCollection() = AudienceCollection(this.players.map { it as Audience }.toMutableList())
 }
+
+val onlinePlayers get() = (server.onlinePlayers as MutableCollection<Player>).playerCollection
 
 val MutableCollection<Audience>.audienceCollection get() = AudienceCollection(this)
 val MutableCollection<Player>.playerCollection get() = PlayerCollection(this)

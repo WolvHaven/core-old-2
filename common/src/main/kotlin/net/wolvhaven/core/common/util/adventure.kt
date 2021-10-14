@@ -20,9 +20,11 @@ package net.wolvhaven.core.common.util
 
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.Component.*
-import net.kyori.adventure.text.format.NamedTextColor.GOLD
-import net.kyori.adventure.text.format.NamedTextColor.GRAY
+import net.kyori.adventure.text.format.NamedTextColor.*
+import net.kyori.adventure.text.format.TextColor
 import net.kyori.adventure.text.format.TextDecoration.BOLD
+import org.bukkit.entity.Player
+import java.awt.Color
 
 fun prefix(type: Component? = null): Component {
     return if (type == null)
@@ -39,3 +41,23 @@ fun prefixed(component: Component): Component {
 fun prefixed(prefixType: Component? = null, main: Component): Component {
     return empty().append(prefix(prefixType)).append(space()).append(main)
 }
+
+val TextColor.awtColor get() = Color(this.value())
+
+fun pretty(t: Any?) : Component {
+    return when (t) {
+        null -> text("Null")
+        is PrettyPrintable -> t.pretty
+        is Boolean -> pretty(t)
+        is Player -> text(t.name)
+        else -> text(t.toString())
+    }
+}
+
+fun pretty(boolean: Boolean) = if (boolean) text("true", GREEN) else text("false", RED)
+
+interface PrettyPrintable {
+    val pretty : Component
+}
+
+val Any?.pretty get() = pretty(this)
