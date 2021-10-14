@@ -23,6 +23,7 @@ import net.wolvhaven.core.plugin.modules.AntiGmspTp
 import net.wolvhaven.core.plugin.modules.CPolicing
 import net.wolvhaven.core.plugin.modules.Core
 import net.wolvhaven.core.plugin.modules.TrainDestroy
+import net.wolvhaven.core.plugin.modules.TrainLogging
 import net.wolvhaven.core.plugin.modules.WhModule
 import net.wolvhaven.core.plugin.modules.WhPlaceholders
 
@@ -37,7 +38,8 @@ class WhCorePlugin : WhPlugin() {
                 CPolicing(this),
                 Core(this),
                 WhPlaceholders(this),
-                AntiGmspTp(this)
+                AntiGmspTp(this),
+                TrainLogging(this)
             )
         )
     }
