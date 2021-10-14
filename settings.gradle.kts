@@ -23,7 +23,6 @@ rootProject.name = "core"
 enableFeaturePreview("VERSION_CATALOGS")
 
 include("common")
-include("common-paper")
 include("core-paper-plugin")
 
 pluginManagement {
