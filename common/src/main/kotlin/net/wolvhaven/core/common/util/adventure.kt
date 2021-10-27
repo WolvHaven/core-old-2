@@ -44,7 +44,7 @@ fun prefixed(prefixType: Component? = null, main: Component): Component {
 
 val TextColor.awtColor get() = Color(this.value())
 
-fun pretty(t: Any?) : Component {
+fun pretty(t: Any?): Component {
     return when (t) {
         null -> text("Null")
         is PrettyPrintable -> t.pretty
@@ -57,7 +57,7 @@ fun pretty(t: Any?) : Component {
 fun pretty(boolean: Boolean) = if (boolean) text("true", GREEN) else text("false", RED)
 
 interface PrettyPrintable {
-    val pretty : Component
+    val pretty: Component
 }
 
 val Any?.pretty get() = pretty(this)

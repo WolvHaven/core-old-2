@@ -26,7 +26,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerTeleportEvent
 
-class AntiGmspTp(private val plugin: WhCorePlugin) : WhModule, Listener{
+class AntiGmspTp(private val plugin: WhCorePlugin) : WhModule, Listener {
     init {
         plugin.server.pluginManager.registerEvents(this, plugin)
     }

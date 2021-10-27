@@ -55,8 +55,7 @@ class Core(private val plugin: WhCorePlugin) : WhModule {
         }
 
         plugin.commandManager.buildCommand(mmBase) { b ->
-            b
-                .literal("broadcast")
+            b.literal("bcast", "broadcast") // "broadcast" as the main for some reason gives IJ a heart attack.
                 .argument(StringArgument.quoted("content"))
                 .permission("whcore.broadcast")
                 .flag(CommandFlag.newBuilder("ding"))
