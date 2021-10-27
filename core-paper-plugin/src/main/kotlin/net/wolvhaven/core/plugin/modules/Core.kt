@@ -26,8 +26,10 @@ import net.wolvhaven.core.common.util.CommandCreatorFunction
 import net.wolvhaven.core.common.util.Sounds
 import net.wolvhaven.core.common.util.buildCommand
 import net.wolvhaven.core.common.util.isStaff
+import net.wolvhaven.core.common.util.mapIfPresent
 import net.wolvhaven.core.common.util.playerCollection
 import net.wolvhaven.core.common.util.prefixed
+import net.wolvhaven.core.common.util.value
 import net.wolvhaven.core.plugin.WhCorePlugin
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
@@ -61,8 +63,14 @@ class Core(private val plugin: WhCorePlugin) : WhModule {
                 .flag(CommandFlag.newBuilder("ding"))
                 .flag(CommandFlag.newBuilder("perm").withArgument(StringArgument.of<CommandSender>("perm")))
                 .flag(CommandFlag.newBuilder("staff"))
+                .flag(CommandFlag.newBuilder("prefixed"))
+                .flag(CommandFlag.newBuilder("customPrefix").withArgument(StringArgument.of<CommandSender>("prefix")))
                 .handler { c ->
                     val content = MiniMessage.get().parse(c["content"])
+
+                    val message = if (c.flags().isPresent("prefixed")) {
+                        prefixed(c.flags().getValue<String>("customPrefix").value.mapIfPresent { MiniMessage.get().parse(it) }, content)
+                    } else content
 
                     val playerCollection = if (c.flags().isPresent("staff")) Bukkit.getOnlinePlayers().filter { it.isStaff }
                     else if (c.flags().getValue<String>("perm").isPresent) Bukkit.getOnlinePlayers().filter { it.hasPermission(c.flags().getValue<String>("perm").orElse("aboajfhawlkdfalfw")) }
@@ -70,8 +78,8 @@ class Core(private val plugin: WhCorePlugin) : WhModule {
 
                     val players = playerCollection.toMutableSet().playerCollection
 
-                    players.sendMessage(content)
-                    Bukkit.getServer().consoleSender.sendMessage(content)
+                    players.sendMessage(message)
+                    Bukkit.getServer().consoleSender.sendMessage(message)
 
                     if (c.flags().isPresent("ding")) players.playSound(Sounds.DING.sound)
                 }
