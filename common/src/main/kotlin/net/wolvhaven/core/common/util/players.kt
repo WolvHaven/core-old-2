@@ -21,7 +21,6 @@ package net.wolvhaven.core.common.util
 import net.kyori.adventure.audience.Audience
 import net.kyori.adventure.audience.ForwardingAudience
 import net.wolvhaven.core.common.server.server
-import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
 data class AudienceCollection(val audiences: MutableCollection<Audience>) : ForwardingAudience, MutableCollection<Audience> by audiences {
