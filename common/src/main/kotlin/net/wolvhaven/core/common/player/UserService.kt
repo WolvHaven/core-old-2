@@ -22,7 +22,7 @@ import net.kyori.adventure.audience.Audience
 import net.kyori.adventure.identity.Identified
 
 abstract class UserService<P> where P : Identified, P : Audience {
-    fun wrap(p: P) : WhPlayer<P> {
+    fun wrap(p: P): WhPlayer<P> {
         TODO()
     }
 }

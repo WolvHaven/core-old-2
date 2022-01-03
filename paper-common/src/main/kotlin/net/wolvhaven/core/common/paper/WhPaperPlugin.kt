@@ -31,7 +31,7 @@ abstract class WhPaperPlugin(bootstrap: WhPaperBootstrap) : WhPlugin(bootstrap),
         bootstrap,
         CommandExecutionCoordinator.simpleCoordinator(),
         {
-            when(it) {
+            when (it) {
                 is Player -> WhPaperPlayer(it)
                 else -> WhPaperUser(it)
             }

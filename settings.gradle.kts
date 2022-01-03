@@ -41,7 +41,7 @@ dependencyResolutionManagement {
             version("kotlin", "1.5.30")
 
             alias("shadow").toPluginId("com.github.johnrengelman.shadow").version("7.0.0")
-            alias("runpaper").toPluginId("xyz.jpenilla.run-paper").version("1.0.3-SNAPSHOT")
+            alias("runpaper").toPluginId("xyz.jpenilla.run-paper").version("1.0.7-SNAPSHOT")
             alias("ktlint").toPluginId("org.jlleitschuh.gradle.ktlint").version("10.2.0")
 
             alias("configurate").to("org.spongepowered:configurate-hocon:4.1.1")

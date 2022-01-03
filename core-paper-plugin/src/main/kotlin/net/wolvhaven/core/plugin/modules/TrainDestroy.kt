@@ -32,7 +32,6 @@ import net.wolvhaven.core.common.util.buildCommand
 import net.wolvhaven.core.common.util.minuteSecond
 import net.wolvhaven.core.plugin.WhCorePlugin
 import net.wolvhaven.core.plugin.config
-import org.bukkit.command.CommandSender
 import org.bukkit.scheduler.BukkitTask
 import org.spongepowered.configurate.objectmapping.ConfigSerializable
 import java.time.Instant

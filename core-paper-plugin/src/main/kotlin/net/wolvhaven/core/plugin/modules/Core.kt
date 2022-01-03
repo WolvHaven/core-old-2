@@ -20,7 +20,6 @@ package net.wolvhaven.core.plugin.modules
 
 import cloud.commandframework.arguments.flags.CommandFlag
 import cloud.commandframework.arguments.standard.StringArgument
-import net.kyori.adventure.text.Component.text
 import net.kyori.adventure.text.minimessage.MiniMessage
 import net.wolvhaven.core.common.paper.util.isStaff
 import net.wolvhaven.core.common.paper.util.playerCollection
