@@ -27,7 +27,7 @@ apply(plugin = "com.github.johnrengelman.shadow")
 apply<RunPaper>()
 
 dependencies {
-    api(project(":common"))
+    api(project(":paper-common"))
 }
 
 tasks {

@@ -18,7 +18,7 @@
 
 package net.wolvhaven.core.plugin
 
-import net.wolvhaven.core.common.WhPlugin
+import net.wolvhaven.core.common.paper.WhPaperPlugin
 import net.wolvhaven.core.plugin.modules.AntiGmspTp
 import net.wolvhaven.core.plugin.modules.CPolicing
 import net.wolvhaven.core.plugin.modules.Core
@@ -27,10 +27,9 @@ import net.wolvhaven.core.plugin.modules.WhModule
 import net.wolvhaven.core.plugin.modules.WhPlaceholders
 
 @Suppress("unused")
-class WhCorePlugin : WhPlugin() {
+class WhCorePlugin(bootstrap: WhCoreBootstrap) : WhPaperPlugin(bootstrap) {
     private val modules = ArrayList<WhModule>()
-
-    override fun enable() {
+    init {
         modules.addAll(
             listOf(
                 TrainDestroy(this),

@@ -23,7 +23,6 @@ import net.kyori.adventure.text.Component.*
 import net.kyori.adventure.text.format.NamedTextColor.*
 import net.kyori.adventure.text.format.TextColor
 import net.kyori.adventure.text.format.TextDecoration.BOLD
-import org.bukkit.entity.Player
 import java.awt.Color
 
 fun prefix(type: Component? = null): Component {
@@ -49,7 +48,6 @@ fun pretty(t: Any?): Component {
         null -> text("Null")
         is PrettyPrintable -> t.pretty
         is Boolean -> pretty(t)
-        is Player -> text(t.name)
         else -> text(t.toString())
     }
 }

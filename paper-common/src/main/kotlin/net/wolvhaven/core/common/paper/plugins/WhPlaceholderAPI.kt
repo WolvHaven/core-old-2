@@ -16,20 +16,16 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.wolvhaven.core.common
+package net.wolvhaven.core.common.paper.plugins
 
-import cloud.commandframework.CommandManager
-import net.wolvhaven.core.common.player.WhUser
-import java.util.concurrent.Executors
-import java.util.concurrent.ScheduledExecutorService
+import me.clip.placeholderapi.PlaceholderAPI
+import org.bukkit.OfflinePlayer
+import org.bukkit.entity.Player
 
-abstract class WhPlugin(val bootstrap: WhBootstrap) {
-    abstract val commandManager: CommandManager<WhUser>
-    val executorService: ScheduledExecutorService = Executors.newSingleThreadScheduledExecutor()
+object WhPlaceholderAPI {
+    fun set(`in`: String) = PlaceholderAPI.setPlaceholders(null, `in`)
 
-    abstract fun disable()
+    fun set(`in`: String, player: OfflinePlayer) = PlaceholderAPI.setPlaceholders(player, `in`)
 
-    fun reload() {
-        bootstrap.reload()
-    }
+    fun set(`in`: String, player: Player) = PlaceholderAPI.setPlaceholders(player, `in`)
 }

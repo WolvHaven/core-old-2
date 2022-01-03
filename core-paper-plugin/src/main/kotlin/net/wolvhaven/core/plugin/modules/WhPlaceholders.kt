@@ -19,11 +19,11 @@
 package net.wolvhaven.core.plugin.modules
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion
-import net.wolvhaven.core.common.plugins.WhEssentials.afk
-import net.wolvhaven.core.common.plugins.WhVanishNoPacket.canSee
-import net.wolvhaven.core.common.plugins.WhVanishNoPacket.unvanished
-import net.wolvhaven.core.common.plugins.WhVanishNoPacket.vanished
-import net.wolvhaven.core.common.util.playerCollection
+import net.wolvhaven.core.common.paper.plugins.WhEssentials.afk
+import net.wolvhaven.core.common.paper.plugins.WhVanishNoPacket.canSee
+import net.wolvhaven.core.common.paper.plugins.WhVanishNoPacket.unvanished
+import net.wolvhaven.core.common.paper.plugins.WhVanishNoPacket.vanished
+import net.wolvhaven.core.common.paper.util.playerCollection
 import net.wolvhaven.core.plugin.WhCorePlugin
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player

@@ -25,18 +25,8 @@ dependencies {
     compileOnlyApi(libs.slf4j.api)
     compileOnlyApi(libs.bundles.adventure)
 
-    api(libs.bundles.cloud)
-// Naughty interfaces includes paper 1.16.5 - exclude
-//    api(libs.interfaces)
+    api(libs.cloud.core)
+    api(libs.cloud.kotlin.extensions)
 
-    // Paper
-    compileOnlyApi(libs.paper)
-
-    // Plugins
-    // -------
-    compileOnlyApi(libs.vanish)
-    compileOnlyApi(libs.papi)
-    compileOnlyApi(libs.essentials)
-    compileOnlyApi(libs.worldedit)
     compileOnlyApi(libs.lp)
 }

@@ -16,20 +16,23 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.wolvhaven.core.common
+package net.wolvhaven.core.common.paper.plugins
 
-import cloud.commandframework.CommandManager
-import net.wolvhaven.core.common.player.WhUser
-import java.util.concurrent.Executors
-import java.util.concurrent.ScheduledExecutorService
+import com.earth2me.essentials.Essentials
+import net.wolvhaven.core.common.paper.plugins.WhEssentials.afk
+import net.wolvhaven.core.common.paper.server.getPlugin
+import net.wolvhaven.core.common.paper.util.PlayerCollection
+import org.bukkit.entity.Player
 
-abstract class WhPlugin(val bootstrap: WhBootstrap) {
-    abstract val commandManager: CommandManager<WhUser>
-    val executorService: ScheduledExecutorService = Executors.newSingleThreadScheduledExecutor()
+object WhEssentials {
+    val essentials get() = getPlugin<Essentials>()
 
-    abstract fun disable()
+    val Player.essx get() = essentials.getUser(this)
 
-    fun reload() {
-        bootstrap.reload()
-    }
+    var Player.afk
+        get() = this.essx.isAfk
+        set(value) { this.essx.isAfk = value }
+
+    val PlayerCollection.afk get() = this.count { it.afk }
+    val PlayerCollection.notAfk get() = this.size - this.afk
 }

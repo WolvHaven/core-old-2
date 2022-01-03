@@ -22,6 +22,7 @@ rootProject.name = "core"
 
 enableFeaturePreview("VERSION_CATALOGS")
 
+include("paper-common")
 include("common")
 include("core-paper-plugin")
 
@@ -64,15 +65,12 @@ dependencyResolutionManagement {
             cloud("core")
             cloud("kotlin-extensions")
             cloud("paper")
-            bundle("cloud", listOf(
-                "cloud-core",
-                "cloud-kotlin-extensions",
-                "cloud-paper"
-            ))
+            cloud("velocity")
 
             alias("interfaces").to("org.incendo.interfaces:interfaces-paper:1.0.0-SNAPSHOT")
 
             alias("paper").to("io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT")
+            alias("velocity").to("com.velocitypowered:velocity-api:3.0.1")
 
             alias("lp").to("net.luckperms:api:5.3")
             alias("vanish").to("com.github.mbax:VanishNoPacket:0cb428ff27")
@@ -90,3 +88,4 @@ fun VersionCatalogBuilder.adventure(module: String) {
 fun VersionCatalogBuilder.cloud(module: String) {
     alias("cloud-$module").to("cloud.commandframework", "cloud-$module").versionRef("cloud")
 }
+include("velocity")

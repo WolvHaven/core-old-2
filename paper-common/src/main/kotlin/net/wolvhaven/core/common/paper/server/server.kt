@@ -16,20 +16,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.wolvhaven.core.common
+package net.wolvhaven.core.common.paper.server
 
-import cloud.commandframework.CommandManager
-import net.wolvhaven.core.common.player.WhUser
-import java.util.concurrent.Executors
-import java.util.concurrent.ScheduledExecutorService
+import org.bukkit.Bukkit
+import org.bukkit.plugin.java.JavaPlugin
 
-abstract class WhPlugin(val bootstrap: WhBootstrap) {
-    abstract val commandManager: CommandManager<WhUser>
-    val executorService: ScheduledExecutorService = Executors.newSingleThreadScheduledExecutor()
+inline fun <reified T : JavaPlugin> getPlugin() = JavaPlugin.getPlugin(T::class.java)
 
-    abstract fun disable()
-
-    fun reload() {
-        bootstrap.reload()
-    }
-}
+val server get() = Bukkit.getServer()

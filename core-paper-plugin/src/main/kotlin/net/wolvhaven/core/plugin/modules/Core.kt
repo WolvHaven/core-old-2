@@ -22,12 +22,13 @@ import cloud.commandframework.arguments.flags.CommandFlag
 import cloud.commandframework.arguments.standard.StringArgument
 import net.kyori.adventure.text.Component.text
 import net.kyori.adventure.text.minimessage.MiniMessage
+import net.wolvhaven.core.common.paper.util.isStaff
+import net.wolvhaven.core.common.paper.util.playerCollection
+import net.wolvhaven.core.common.player.WhUser
 import net.wolvhaven.core.common.util.CommandCreatorFunction
 import net.wolvhaven.core.common.util.Sounds
 import net.wolvhaven.core.common.util.buildCommand
-import net.wolvhaven.core.common.util.isStaff
 import net.wolvhaven.core.common.util.mapIfPresent
-import net.wolvhaven.core.common.util.playerCollection
 import net.wolvhaven.core.common.util.prefixed
 import net.wolvhaven.core.common.util.value
 import net.wolvhaven.core.plugin.WhCorePlugin
@@ -38,22 +39,12 @@ class Core(private val plugin: WhCorePlugin) : WhModule {
     private val permissionAdmin = "${net.wolvhaven.core.plugin.WhCorePlugin.permRoot}.admin"
 
     init {
-        val base: CommandCreatorFunction<CommandSender> = {
+        val base: CommandCreatorFunction<WhUser> = {
             it.commandBuilder("wolvhavencore", "whcore", "wh")
         }
 
-        val mmBase: CommandCreatorFunction<CommandSender> = {
+        val mmBase: CommandCreatorFunction<WhUser> = {
             it.commandBuilder("minimessage", "mm")
-        }
-
-        plugin.commandManager.buildCommand(base) { b ->
-            b
-                .literal("reload")
-                .permission(permissionAdmin)
-                .handler {
-                    plugin.reload()
-                    it.sender.sendMessage(prefixed(text("Reloaded!")))
-                }
         }
 
         plugin.commandManager.buildCommand(mmBase) { b ->

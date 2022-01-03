@@ -16,20 +16,14 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.wolvhaven.core.common
+package net.wolvhaven.core.common.paper.plugins
 
-import cloud.commandframework.CommandManager
-import net.wolvhaven.core.common.player.WhUser
-import java.util.concurrent.Executors
-import java.util.concurrent.ScheduledExecutorService
+import net.luckperms.api.LuckPermsProvider
+import net.wolvhaven.core.common.util.*
+import org.bukkit.entity.Player
 
-abstract class WhPlugin(val bootstrap: WhBootstrap) {
-    abstract val commandManager: CommandManager<WhUser>
-    val executorService: ScheduledExecutorService = Executors.newSingleThreadScheduledExecutor()
+object WhLuckperms {
+    val lp get() = LuckPermsProvider.get()
 
-    abstract fun disable()
-
-    fun reload() {
-        bootstrap.reload()
-    }
+    val Player.luckperms get() = lp.getPlayerAdapter<Player>()[this]
 }

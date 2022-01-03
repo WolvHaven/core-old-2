@@ -16,20 +16,17 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.wolvhaven.core.common
+package net.wolvhaven.core.common.paper.util
 
-import cloud.commandframework.CommandManager
-import net.wolvhaven.core.common.player.WhUser
-import java.util.concurrent.Executors
-import java.util.concurrent.ScheduledExecutorService
+import org.bukkit.entity.Player
 
-abstract class WhPlugin(val bootstrap: WhBootstrap) {
-    abstract val commandManager: CommandManager<WhUser>
-    val executorService: ScheduledExecutorService = Executors.newSingleThreadScheduledExecutor()
+val Player.isStaff get() = isHelper
 
-    abstract fun disable()
+val Player.isHelper get() = hasPermission("group.helper") || isMod
+val Player.isMod get() = hasPermission("group.mod") || isSrMod
+val Player.isSrMod get() = hasPermission("group.srmod") || isAdmin
+val Player.isAdmin get() = hasPermission("group.admin") || isOwner
+val Player.isOwner get() = hasPermission("group.owner")
 
-    fun reload() {
-        bootstrap.reload()
-    }
-}
+val Player.isTrainDriver get() = hasPermission("group.trainoperator") || isTrainExaminer
+val Player.isTrainExaminer get() = hasPermission("group.trainexaminer") || isAdmin

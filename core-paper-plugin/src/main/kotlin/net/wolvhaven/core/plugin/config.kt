@@ -19,8 +19,10 @@
 package net.wolvhaven.core.plugin
 
 import net.wolvhaven.core.common.Config
-import net.wolvhaven.core.common.WhPlugin
+import net.wolvhaven.core.common.paper.WhPaperBootstrap
+import net.wolvhaven.core.common.paper.WhPaperPlugin
 import java.io.File
 
 inline fun <reified C> config(file: File) = Config(C::class.java, file)
-inline fun <reified C> config(fileName: String, plugin: WhPlugin) = config<C>(File(plugin.dataFolder, "$fileName.conf"))
+inline fun <reified C> config(fileName: String, plugin: WhPaperPlugin) = config<C>(File(plugin.dataFolder, "$fileName.conf"))
+inline fun <reified C> config(fileName: String, plugin: WhPaperBootstrap) = config<C>(File(plugin.dataFolder, "$fileName.conf"))

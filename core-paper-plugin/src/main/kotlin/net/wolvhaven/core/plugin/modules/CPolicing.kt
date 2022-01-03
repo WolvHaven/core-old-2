@@ -23,7 +23,9 @@ import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.Component.empty
 import net.kyori.adventure.text.Component.text
 import net.kyori.adventure.text.format.NamedTextColor.*
-import net.wolvhaven.core.common.server.server
+import net.wolvhaven.core.common.paper.WhPaperPlayer
+import net.wolvhaven.core.common.paper.server.server
+import net.wolvhaven.core.common.player.WhUser
 import net.wolvhaven.core.common.util.CommandCreatorFunction
 import net.wolvhaven.core.common.util.CommandModifierFunction
 import net.wolvhaven.core.common.util.buildCommand
@@ -49,7 +51,7 @@ class CPolicing(plugin: WhCorePlugin) : WhModule {
     private val threshold: Int get() = (server.onlinePlayers.size * config().percentRequired).toInt()
 
     init {
-        val base: CommandCreatorFunction<CommandSender> = {
+        val base: CommandCreatorFunction<WhUser> = {
             it.commandBuilder("cpolicing", "cpolice")
         }
 
@@ -79,11 +81,11 @@ class CPolicing(plugin: WhCorePlugin) : WhModule {
                 }
         }
 
-        val vote: CommandModifierFunction<CommandSender> = {
+        val vote: CommandModifierFunction<WhUser> = {
             it
                 .literal("vote", "v")
                 .permission(permissionVote)
-                .senderType(Player::class.java)
+                .senderType(WhPaperPlayer::class.java)
         }
 
         plugin.commandManager.buildCommand(
@@ -130,7 +132,7 @@ class CPolicing(plugin: WhCorePlugin) : WhModule {
         }
     }
 
-    fun checkEnabled(sender: CommandSender): Boolean {
+    fun checkEnabled(sender: WhUser): Boolean {
         if (config().enabled) return true
         sender.sendMessage(prefixed(text("Community Policing is currently disabled.", RED)))
         if (sender.hasPermission(permissionAdmin))

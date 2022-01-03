@@ -25,7 +25,8 @@ import net.kyori.adventure.text.format.NamedTextColor
 import net.kyori.adventure.text.format.NamedTextColor.GREEN
 import net.kyori.adventure.text.format.Style
 import net.kyori.adventure.text.format.TextDecoration
-import net.wolvhaven.core.common.server.server
+import net.wolvhaven.core.common.paper.server.server
+import net.wolvhaven.core.common.player.WhUser
 import net.wolvhaven.core.common.util.CommandCreatorFunction
 import net.wolvhaven.core.common.util.buildCommand
 import net.wolvhaven.core.common.util.minuteSecond
@@ -57,7 +58,7 @@ class TrainDestroy(plugin: WhCorePlugin) : WhModule {
             .append(text(timeRemaining, Style.style(TextDecoration.BOLD)))
 
     init {
-        val base: CommandCreatorFunction<CommandSender> = {
+        val base: CommandCreatorFunction<WhUser> = {
             it.commandBuilder("traindestroy")
         }
 

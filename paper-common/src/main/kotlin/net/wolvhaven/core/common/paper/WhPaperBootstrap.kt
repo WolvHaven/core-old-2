@@ -16,20 +16,26 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.wolvhaven.core.common
+package net.wolvhaven.core.common.paper
 
-import cloud.commandframework.CommandManager
-import net.wolvhaven.core.common.player.WhUser
-import java.util.concurrent.Executors
-import java.util.concurrent.ScheduledExecutorService
+import net.wolvhaven.core.common.WhBootstrap
+import org.bukkit.plugin.java.JavaPlugin
 
-abstract class WhPlugin(val bootstrap: WhBootstrap) {
-    abstract val commandManager: CommandManager<WhUser>
-    val executorService: ScheduledExecutorService = Executors.newSingleThreadScheduledExecutor()
+abstract class WhPaperBootstrap : JavaPlugin(), WhBootstrap {
+    abstract val pluginConstructor: () -> WhPaperPlugin
+    var plugin: WhPaperPlugin? = null
 
-    abstract fun disable()
+    final override fun onEnable() {
+        plugin = pluginConstructor()
+    }
 
-    fun reload() {
-        bootstrap.reload()
+    final override fun onDisable() {
+        plugin?.disable()
+        plugin = null
+    }
+
+    override fun reload() {
+        isEnabled = false
+        isEnabled = true
     }
 }
