@@ -48,9 +48,11 @@ tasks {
             "org.reactivestreams",
             "reactor",
             "kotlin",
-            "net.kyori.event"
+            "net.kyori.event",
+            "net.kyori.adventure.text.minimessage",
+            "net.kyori.adventure.text.serializer"
         ).forEach {
-//            relocateWh(it)
+            relocateWh(it)
         }
 
         minimize()
@@ -60,6 +62,10 @@ tasks {
         dependsOn(shadowJar)
         minecraftVersion("1.18.1")
         jvmArgs("-DLog4jContextSelector=org.apache.logging.log4j.core.selector.ClassLoaderContextSelector") // https://github.com/PaperMC/Paper/issues/4155
+    }
+
+    build {
+        dependsOn(shadowJar)
     }
 }
 

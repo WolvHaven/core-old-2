@@ -23,7 +23,20 @@ dependencies {
     api(libs.guava)
 
     compileOnlyApi(libs.slf4j.api)
-    compileOnlyApi(libs.bundles.adventure)
+    compileOnlyApi(libs.adventure.api)
+
+    api(libs.adventure.minimessage) {
+        exclude("net.kyori", "adventure-api")
+        exclude("net.kyori", "adventure-bom")
+    }
+    api(libs.adventure.text.serializer.gson) {
+        exclude("net.kyori", "adventure-api")
+        exclude("net.kyori", "adventure-bom")
+    }
+    api(libs.adventure.text.serializer.plain) {
+        exclude("net.kyori", "adventure-api")
+        exclude("net.kyori", "adventure-bom")
+    }
 
     api(libs.cloud.core)
     api(libs.cloud.kotlin.extensions)

@@ -55,12 +55,6 @@ dependencyResolutionManagement {
             adventure("text-serializer-gson")
             // minimessage stable release when? :(
             alias("adventure-minimessage").to("net.kyori", "adventure-text-minimessage").version("4.1.0-SNAPSHOT")
-            bundle("adventure", listOf(
-                "adventure-api",
-                "adventure-text-serializer-plain",
-                "adventure-text-serializer-gson",
-                "adventure-minimessage"
-            ))
 
             cloud("core")
             cloud("kotlin-extensions")

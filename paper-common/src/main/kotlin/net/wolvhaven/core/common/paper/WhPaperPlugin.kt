@@ -37,7 +37,6 @@ abstract class WhPaperPlugin(bootstrap: WhPaperBootstrap) : WhPlugin(bootstrap),
             }
         },
         {
-            if (it !is WhPaperUser) throw IllegalStateException()
             when (it) {
                 is WhPaperPlayer -> it.wrapped
                 is WhPaperUser -> it.commandSender
