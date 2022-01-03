@@ -25,6 +25,7 @@ import net.wolvhaven.core.common.paper.util.isStaff
 import net.wolvhaven.core.common.paper.util.playerCollection
 import net.wolvhaven.core.common.player.WhUser
 import net.wolvhaven.core.common.util.CommandCreatorFunction
+import net.wolvhaven.core.common.util.CommandModifierFunction
 import net.wolvhaven.core.common.util.Sounds
 import net.wolvhaven.core.common.util.buildCommand
 import net.wolvhaven.core.common.util.mapIfPresent
@@ -46,33 +47,43 @@ class Core(private val plugin: WhCorePlugin) : WhModule {
             it.commandBuilder("minimessage", "mm")
         }
 
-        plugin.commandManager.buildCommand(mmBase) { b ->
-            b.literal("bcast", "broadcast") // "broadcast" as the main for some reason gives IJ a heart attack.
-                .argument(StringArgument.quoted("content"))
-                .permission("whcore.broadcast")
-                .flag(CommandFlag.newBuilder("ding"))
-                .flag(CommandFlag.newBuilder("perm").withArgument(StringArgument.of<CommandSender>("perm")))
-                .flag(CommandFlag.newBuilder("staff"))
-                .flag(CommandFlag.newBuilder("prefixed"))
-                .flag(CommandFlag.newBuilder("customPrefix").withArgument(StringArgument.of<CommandSender>("prefix")))
-                .handler { c ->
-                    val content = MiniMessage.get().parse(c["content"])
-
-                    val message = if (c.flags().isPresent("prefixed")) {
-                        prefixed(c.flags().getValue<String>("customPrefix").value.mapIfPresent { MiniMessage.get().parse(it) }, content)
-                    } else content
-
-                    val playerCollection = if (c.flags().isPresent("staff")) Bukkit.getOnlinePlayers().filter { it.isStaff }
-                    else if (c.flags().getValue<String>("perm").isPresent) Bukkit.getOnlinePlayers().filter { it.hasPermission(c.flags().getValue<String>("perm").orElse("aboajfhawlkdfalfw")) }
-                    else Bukkit.getOnlinePlayers()
-
-                    val players = playerCollection.toMutableSet().playerCollection
-
-                    players.sendMessage(message)
-                    Bukkit.getServer().consoleSender.sendMessage(message)
-
-                    if (c.flags().isPresent("ding")) players.playSound(Sounds.DING.sound)
-                }
+        val bcastBase: CommandCreatorFunction<WhUser> = {
+            it.commandBuilder("bcast", "broadcast", "bc")
         }
+
+        val bcastModifier: CommandModifierFunction<WhUser> = { b ->
+            b
+            .argument(StringArgument.quoted("content"))
+            .permission("whcore.broadcast")
+            .flag(CommandFlag.newBuilder("ding"))
+            .flag(CommandFlag.newBuilder("perm").withArgument(StringArgument.of<CommandSender>("perm")))
+            .flag(CommandFlag.newBuilder("staff"))
+            .flag(CommandFlag.newBuilder("prefixed"))
+            .flag(CommandFlag.newBuilder("customPrefix").withArgument(StringArgument.quoted<CommandSender>("prefix")))
+            .handler { c ->
+                val content = MiniMessage.get().parse(c["content"])
+
+                val message = if (c.flags().isPresent("prefixed")) {
+                    prefixed(c.flags().getValue<String>("customPrefix").value.mapIfPresent { MiniMessage.get().parse(it) }, content)
+                } else content
+
+                val playerCollection = if (c.flags().isPresent("staff")) Bukkit.getOnlinePlayers().filter { it.isStaff }
+                else if (c.flags().getValue<String>("perm").isPresent) Bukkit.getOnlinePlayers().filter { it.hasPermission(c.flags().getValue<String>("perm").orElse("aboajfhawlkdfalfw")) }
+                else Bukkit.getOnlinePlayers()
+
+                val players = playerCollection.toMutableSet().playerCollection
+
+                players.sendMessage(message)
+                Bukkit.getServer().consoleSender.sendMessage(message)
+
+                if (c.flags().isPresent("ding")) players.playSound(Sounds.DING.sound)
+            }
+        }
+
+        plugin.commandManager.buildCommand(mmBase, { b ->
+            b.literal("bcast", "broadcast", "bc") // "broadcast" as the main for some reason gives IJ a heart attack.
+        }, bcastModifier)
+
+        plugin.commandManager.buildCommand(bcastBase, bcastModifier)
     }
 }

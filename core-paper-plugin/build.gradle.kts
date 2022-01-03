@@ -50,7 +50,8 @@ tasks {
             "kotlin",
             "net.kyori.event",
             "net.kyori.adventure.text.minimessage",
-            "net.kyori.adventure.text.serializer"
+            "net.kyori.adventure.text.serializer.plain",
+            "net.kyori.adventure.text.serializer.gson"
         ).forEach {
             relocateWh(it)
         }
