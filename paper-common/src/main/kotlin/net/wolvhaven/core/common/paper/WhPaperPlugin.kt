@@ -26,9 +26,9 @@ import net.wolvhaven.core.common.player.WhUser
 import org.bukkit.entity.Player
 import org.bukkit.plugin.Plugin
 
-abstract class WhPaperPlugin(bootstrap: WhPaperBootstrap) : WhPlugin(bootstrap), Plugin by bootstrap {
+abstract class WhPaperPlugin(val paperBootstrap: WhPaperBootstrap) : WhPlugin(paperBootstrap), Plugin by paperBootstrap {
     override val commandManager: CommandManager<WhUser> = PaperCommandManager(
-        bootstrap,
+        paperBootstrap,
         CommandExecutionCoordinator.simpleCoordinator(),
         {
             when (it) {
