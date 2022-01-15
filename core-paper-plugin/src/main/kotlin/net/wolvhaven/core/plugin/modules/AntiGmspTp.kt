@@ -18,9 +18,7 @@
 
 package net.wolvhaven.core.plugin.modules
 
-import net.kyori.adventure.text.Component
-import net.kyori.adventure.text.format.NamedTextColor
-import net.wolvhaven.core.common.util.prefixed
+import net.wolvhaven.core.common.locale.Messages
 import net.wolvhaven.core.plugin.WhCorePlugin
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -36,6 +34,6 @@ class AntiGmspTp(private val plugin: WhCorePlugin) : WhModule, Listener {
     fun onTp(e: PlayerTeleportEvent) {
         if (e.cause != PlayerTeleportEvent.TeleportCause.SPECTATE) return
         if (e.player.hasPermission(perm)) return
-        e.player.sendMessage(prefixed(Component.text("Sorry, you can't teleport using spectator mode!", NamedTextColor.RED)))
+        e.player.sendMessage(Messages.AntiGmspTp.DENY)
     }
 }

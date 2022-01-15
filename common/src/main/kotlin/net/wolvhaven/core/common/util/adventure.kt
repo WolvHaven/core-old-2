@@ -25,22 +25,6 @@ import net.kyori.adventure.text.format.TextColor
 import net.kyori.adventure.text.format.TextDecoration.BOLD
 import java.awt.Color
 
-fun prefix(type: Component? = null): Component {
-    return if (type == null)
-        text("[", GRAY, BOLD).append(text("WH", GOLD)).append(text("]"))
-    else
-        text("[", GRAY, BOLD).append(text("WH", GOLD)).append(text(" | "))
-            .append(type.colorIfAbsent(GOLD)).append(text("]"))
-}
-
-fun prefixed(component: Component): Component {
-    return prefixed(null, component)
-}
-
-fun prefixed(prefixType: Component? = null, main: Component): Component {
-    return empty().append(prefix(prefixType)).append(space()).append(main)
-}
-
 val TextColor.awtColor get() = Color(this.value())
 
 fun pretty(t: Any?): Component {

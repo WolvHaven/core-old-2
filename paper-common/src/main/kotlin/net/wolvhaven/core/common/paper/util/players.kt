@@ -36,7 +36,7 @@ data class PlayerCollection(val players: MutableCollection<Player>) : Forwarding
     fun toAudienceCollection() = AudienceCollection(this.players.map { it as Audience }.toMutableList())
 }
 
-val onlinePlayers get() = (server.onlinePlayers as MutableCollection<Player>).playerCollection
+val onlinePlayers get() = server.onlinePlayers.toMutableList().playerCollection
 
 val MutableCollection<Audience>.audienceCollection get() = AudienceCollection(this)
 val MutableCollection<Player>.playerCollection get() = PlayerCollection(this)

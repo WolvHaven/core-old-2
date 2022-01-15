@@ -21,6 +21,7 @@ package net.wolvhaven.core.plugin.modules
 import cloud.commandframework.arguments.flags.CommandFlag
 import cloud.commandframework.arguments.standard.StringArgument
 import net.kyori.adventure.text.minimessage.MiniMessage
+import net.wolvhaven.core.common.locale.Messages
 import net.wolvhaven.core.common.paper.util.isStaff
 import net.wolvhaven.core.common.paper.util.playerCollection
 import net.wolvhaven.core.common.player.WhUser
@@ -29,7 +30,6 @@ import net.wolvhaven.core.common.util.CommandModifierFunction
 import net.wolvhaven.core.common.util.Sounds
 import net.wolvhaven.core.common.util.buildCommand
 import net.wolvhaven.core.common.util.mapIfPresent
-import net.wolvhaven.core.common.util.prefixed
 import net.wolvhaven.core.common.util.value
 import net.wolvhaven.core.plugin.WhCorePlugin
 import org.bukkit.Bukkit
@@ -63,9 +63,11 @@ class Core(private val plugin: WhCorePlugin) : WhModule {
             .handler { c ->
                 val content = MiniMessage.get().parse(c["content"])
 
-                val message = if (c.flags().isPresent("prefixed")) {
-                    prefixed(c.flags().getValue<String>("customPrefix").value.mapIfPresent { MiniMessage.get().parse(it) }, content)
-                } else content
+                val message = Messages.Core.BROADCAST(
+                    c.flags().isPresent("prefixed"),
+                    c.flags().getValue<String>("customPrefix").value.mapIfPresent { MiniMessage.get().parse(it) },
+                    content
+                )
 
                 val playerCollection = if (c.flags().isPresent("staff")) Bukkit.getOnlinePlayers().filter { it.isStaff }
                 else if (c.flags().getValue<String>("perm").isPresent) Bukkit.getOnlinePlayers().filter { it.hasPermission(c.flags().getValue<String>("perm").orElse("aboajfhawlkdfalfw")) }

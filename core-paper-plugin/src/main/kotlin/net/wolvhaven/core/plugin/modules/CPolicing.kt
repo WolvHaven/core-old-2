@@ -23,6 +23,7 @@ import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.Component.empty
 import net.kyori.adventure.text.Component.text
 import net.kyori.adventure.text.format.NamedTextColor.*
+import net.wolvhaven.core.common.locale.Messages
 import net.wolvhaven.core.common.paper.WhPaperPlayer
 import net.wolvhaven.core.common.paper.server.server
 import net.wolvhaven.core.common.player.WhUser
@@ -34,6 +35,9 @@ import net.wolvhaven.core.plugin.WhCorePlugin
 import net.wolvhaven.core.plugin.config
 import org.bukkit.entity.Player
 import org.spongepowered.configurate.objectmapping.ConfigSerializable
+
+// TODO: Refacator to using WhPlayer instead of Bukkit Player (make platform abstract)
+// TODO: Blocked on PlayerService
 
 class CPolicing(plugin: WhCorePlugin) : WhModule {
     val votes = HashMap<Player, MutableList<Player>>()
@@ -60,10 +64,10 @@ class CPolicing(plugin: WhCorePlugin) : WhModule {
                 .permission(permissionAdmin)
                 .handler {
                     if (config().enabled)
-                        return@handler it.sender.sendMessage(prefixed(text("CPolicing is already enabled!", RED)))
+                        return@handler it.sender.sendMessage(Messages.CPolicing.ALREADY_ENABLED())
                     config().enabled = true
                     config.save()
-                    server.sendMessage(prefixed(text("Community Policing is now enabled.", BLUE)))
+                    server.sendMessage(Messages.CPolicing.NOW_ENABLED())
                 }
         }
 
@@ -73,10 +77,10 @@ class CPolicing(plugin: WhCorePlugin) : WhModule {
                 .permission(permissionAdmin)
                 .handler {
                     if (!config().enabled)
-                        return@handler it.sender.sendMessage(prefixed(text("CPolicing is already disabled!", RED)))
+                        return@handler it.sender.sendMessage(Messages.CPolicing.ALREADY_DISABLED())
                     config().enabled = false
                     config.save()
-                    server.sendMessage(prefixed(text("Community Policing is now disabled.", BLUE)))
+                    server.sendMessage(Messages.CPolicing.NOW_DISABLED())
                 }
         }
 
@@ -97,7 +101,7 @@ class CPolicing(plugin: WhCorePlugin) : WhModule {
                         val sender = it.sender as Player
                         val target = it.get("target") as Player
                         if (target.hasPermission(permissionExempt))
-                            return@handler it.sender.sendMessage(prefixed(text("${target.name} is exempt from voting!", RED)))
+                            return@handler it.sender.sendMessage(Messages.CPolicing.PLAYER_EXEMPT(WhPaperPlayer(target)))
                         vote(sender, target)
                     }
             }
@@ -105,13 +109,12 @@ class CPolicing(plugin: WhCorePlugin) : WhModule {
     }
 
     fun vote(sender: Player, target: Player) {
-        // votes: HashMap<UUID, MutableList<UUID>>
         val targetVotes = votes.computeIfAbsent(target) { ArrayList() }
         if (targetVotes.contains(sender))
-            return sender.sendMessage(prefixed(text("You've already voted for ${target.name}!")))
+            return sender.sendMessage(Messages.CPolicing.ALREADY_VOTED(WhPaperPlayer(target)))
         targetVotes.add(sender)
         votes[target] = targetVotes // Do I need this?
-        server.sendMessage(prefixed(text("${sender.name} has voted for ${target.name} [${targetVotes.size}/$threshold]", AQUA)))
+        server.sendMessage(Messages.CPolicing.VOTED(WhPaperPlayer(sender), WhPaperPlayer(target), targetVotes.size, threshold))
     }
 
     fun checkVotes() {
@@ -121,26 +124,17 @@ class CPolicing(plugin: WhCorePlugin) : WhModule {
                 return@forEach
             }
             if (v.size >= threshold) {
+                server.sendMessage(Messages.CPolicing.BANNED(WhPaperPlayer(k)))
                 k.banPlayer("You have been banned by Community Policing. To report abuse, appeal@wolvhaven.net")
                 logger().info("${k.name} has been banned by CPolice. Voters: ${v.joinToString { it.name }}")
-                server.sendMessage(
-                    empty()
-                        .append(prefixed(text("${k.name} has been banned.")))
-                )
             }
         }
     }
 
     fun checkEnabled(sender: WhUser): Boolean {
         if (config().enabled) return true
-        sender.sendMessage(prefixed(text("Community Policing is currently disabled.", RED)))
-        if (sender.hasPermission(permissionAdmin))
-            sender.sendMessage(prefixed(text("It can be enabled with /cpolicing enable", GRAY)))
+        sender.sendMessage(Messages.CPolicing.DISABLED(sender.hasPermission(permissionAdmin)))
         return false
-    }
-
-    private fun prefixed(component: Component): Component {
-        return net.wolvhaven.core.common.util.prefixed(text("CPolicing"), component)
     }
 }
 

@@ -20,15 +20,9 @@ package net.wolvhaven.core.plugin.modules
 
 import cloud.commandframework.arguments.flags.CommandFlag
 import cloud.commandframework.kotlin.extension.senderType
-import net.kyori.adventure.text.Component
-import net.kyori.adventure.text.Component.text
-import net.kyori.adventure.text.format.NamedTextColor
-import net.kyori.adventure.text.minimessage.MiniMessage
+import net.wolvhaven.core.common.locale.Messages
 import net.wolvhaven.core.common.paper.WhPaperPlayer
-import net.wolvhaven.core.common.player.WhUser
-import net.wolvhaven.core.common.util.CommandCreatorFunction
 import net.wolvhaven.core.common.util.buildCommand
-import net.wolvhaven.core.common.util.prefixed
 import net.wolvhaven.core.plugin.WhCorePlugin
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
@@ -61,14 +55,14 @@ class InvisibleItemFrames(val plugin: WhCorePlugin) : WhModule, Listener {
                     val stack = ItemStack(if (glow) Material.GLOW_ITEM_FRAME else Material.ITEM_FRAME)
                     stack.editMeta { m ->
                         m.persistentDataContainer[invisItemFrameKey, PersistentDataType.BYTE] = 1
-                        m.displayName(MiniMessage.get().parse("<b><i>Invisible</b>${if (glow) " Glow" else ""} Item Frame"))
+                        m.displayName(Messages.InvisibleItemFrames.ITEM_NAME(glow))
                         m.addEnchant(Enchantment.DURABILITY, 1, true)
                         m.addItemFlags(ItemFlag.HIDE_ENCHANTS)
                     }
                     if (p.wrapped.inventory.addItem(stack).isEmpty()) {
-                        p.sendMessage(prefixed(text("Gave you an Invisible${if (glow) " Glow" else ""} Item Frame", NamedTextColor.GREEN)))
+                        p.sendMessage(Messages.InvisibleItemFrames.GIVE_SUCCESS(glow))
                     } else {
-                        p.sendMessage(prefixed(text("Couldn't give you the item! Is your inventory full?", NamedTextColor.RED)))
+                        p.sendMessage(Messages.InvisibleItemFrames.GIVE_FAIL())
                     }
                 }
         }
