@@ -19,10 +19,10 @@
 package net.wolvhaven.core.common.util
 
 import net.kyori.adventure.text.Component
-import net.kyori.adventure.text.Component.*
-import net.kyori.adventure.text.format.NamedTextColor.*
+import net.kyori.adventure.text.Component.text
+import net.kyori.adventure.text.format.NamedTextColor.GREEN
+import net.kyori.adventure.text.format.NamedTextColor.RED
 import net.kyori.adventure.text.format.TextColor
-import net.kyori.adventure.text.format.TextDecoration.BOLD
 import java.awt.Color
 
 val TextColor.awtColor get() = Color(this.value())

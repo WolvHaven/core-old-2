@@ -19,10 +19,6 @@
 package net.wolvhaven.core.plugin.modules
 
 import cloud.commandframework.bukkit.parsers.PlayerArgument
-import net.kyori.adventure.text.Component
-import net.kyori.adventure.text.Component.empty
-import net.kyori.adventure.text.Component.text
-import net.kyori.adventure.text.format.NamedTextColor.*
 import net.wolvhaven.core.common.locale.Messages
 import net.wolvhaven.core.common.paper.WhPaperPlayer
 import net.wolvhaven.core.common.paper.server.server

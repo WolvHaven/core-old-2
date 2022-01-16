@@ -48,7 +48,7 @@ object Messages {
         /**
          * Destroy Countdown, Frequency, First Run
          */
-        val INFO: Args3<String, Long, Long> =  { destroyIn, frequency, firstRun ->
+        val INFO: Args3<String, Long, Long> = { destroyIn, frequency, firstRun ->
             empty()
                 .color(GRAY)
                 .append(DESTROY_IN(destroyIn))
@@ -92,7 +92,7 @@ object Messages {
             empty()
                 .color(RED)
                 .append(PREFIX)
-                .append(text("Trains have been destroyed." ))
+                .append(text("Trains have been destroyed."))
         }
     }
 
@@ -192,8 +192,8 @@ object Messages {
         }
 
         /**
-        * Banned Player
-        */
+         * Banned Player
+         */
         val BANNED: Args1<WhPlayer<*>> = {
             empty()
                 .color(GREEN)
