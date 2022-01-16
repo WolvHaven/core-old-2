@@ -19,6 +19,7 @@
 package net.wolvhaven.core.plugin.modules
 
 import net.wolvhaven.core.common.locale.Messages
+import net.wolvhaven.core.common.paper.util.cancel
 import net.wolvhaven.core.plugin.WhCorePlugin
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -35,5 +36,6 @@ class AntiGmspTp(private val plugin: WhCorePlugin) : WhModule, Listener {
         if (e.cause != PlayerTeleportEvent.TeleportCause.SPECTATE) return
         if (e.player.hasPermission(perm)) return
         e.player.sendMessage(Messages.AntiGmspTp.DENY)
+        e.cancel()
     }
 }
