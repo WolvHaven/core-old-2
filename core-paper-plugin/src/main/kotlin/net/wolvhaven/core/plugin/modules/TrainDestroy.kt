@@ -73,6 +73,7 @@ class TrainDestroy(plugin: WhCorePlugin) : WhModule {
                 .permission(permissionDelay)
                 .handler {
                     nextRun = nextRun.plus(config().delay, ChronoUnit.MINUTES)
+                    hasNotified = false
                     server.sendMessage(Messages.TrainDestroy.DELAYED(it.sender, config().delay))
                 }
         }

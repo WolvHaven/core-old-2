@@ -70,7 +70,7 @@ object Messages {
         val DELAYED: Args2<WhUser, Long> = { user, delay ->
             empty()
                 .append(PREFIX)
-                .append(text("Train destroy has been delayed $delay minutes by $user", GREEN))
+                .append(text("Train destroy has been delayed $delay minutes by ${user.name}", GREEN))
         }
 
         /**
@@ -233,6 +233,25 @@ object Messages {
                 .color(RED)
                 .append(prefix())
                 .append(text("Couldn't give you the item! Is your inventory full?"))
+        }
+    }
+
+    object DebugLogging {
+        /**
+         * Reason, kick message
+         */
+        val DISCONNECT_REASON_LOG: Args3<WhPlayer<*>, String, Component?> = { p, r, m ->
+            val tmp = empty()
+                .append(prefix())
+                .append(text(p.name, style(BOLD)))
+                .append(text(" D/Ced: "))
+                .append(text(r, style(BOLD)))
+            if (m != null) tmp
+                .append(newline())
+                .append(prefix())
+                .append(text("Kick message: "))
+                .append(m)
+            else tmp
         }
     }
 }

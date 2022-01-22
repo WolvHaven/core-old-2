@@ -22,6 +22,7 @@ import net.wolvhaven.core.common.paper.WhPaperPlugin
 import net.wolvhaven.core.plugin.modules.AntiGmspTp
 import net.wolvhaven.core.plugin.modules.CPolicing
 import net.wolvhaven.core.plugin.modules.Core
+import net.wolvhaven.core.plugin.modules.DebugLogging
 import net.wolvhaven.core.plugin.modules.InvisibleItemFrames
 import net.wolvhaven.core.plugin.modules.TrainDestroy
 import net.wolvhaven.core.plugin.modules.WhModule
@@ -38,7 +39,8 @@ class WhCorePlugin(bootstrap: WhCoreBootstrap) : WhPaperPlugin(bootstrap) {
                 Core(this),
                 WhPlaceholders(this),
                 AntiGmspTp(this),
-                InvisibleItemFrames(this)
+                InvisibleItemFrames(this),
+                DebugLogging(this)
             )
         )
     }
