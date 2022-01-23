@@ -22,10 +22,10 @@ import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.Component.*
 import net.kyori.adventure.text.format.NamedTextColor.*
 import net.kyori.adventure.text.format.Style.style
-import net.kyori.adventure.text.format.TextDecoration.*
+import net.kyori.adventure.text.format.TextDecoration.BOLD
+import net.kyori.adventure.text.format.TextDecoration.ITALIC
 import net.wolvhaven.core.common.player.WhPlayer
 import net.wolvhaven.core.common.player.WhUser
-import net.wolvhaven.core.common.util.pretty
 
 object Messages {
     val PREFIX = prefix()
