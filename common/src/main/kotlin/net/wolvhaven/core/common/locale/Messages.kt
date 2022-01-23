@@ -241,12 +241,12 @@ object Messages {
         /**
          * Reason, kick message
          */
-        val DISCONNECT_REASON_LOG: Args2<WhPlayer<*>, String> = { p, r ->
+        val DISCONNECT_REASON_LOG: Args2<WhPlayer<*>, Component> = { p, r ->
             empty()
                 .append(prefix())
                 .append(text(p.name, style(BOLD)))
                 .append(text(" D/Ced: "))
-                .append(r.pretty)
+                .append(r)
         }
     }
 }

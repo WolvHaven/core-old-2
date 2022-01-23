@@ -21,6 +21,7 @@ package net.wolvhaven.core.plugin.modules
 import net.wolvhaven.core.common.locale.Messages
 import net.wolvhaven.core.common.paper.WhPaperPlayer
 import net.wolvhaven.core.common.paper.util.onlinePlayers
+import net.wolvhaven.core.common.util.pretty
 import net.wolvhaven.core.plugin.WhCorePlugin
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
@@ -40,6 +41,6 @@ class DebugLogging(private val plugin: WhCorePlugin) : WhModule, Listener {
     fun onDisconnect(e: PlayerQuitEvent) {
         onlinePlayers
             .filtered { it.hasPermission(permissionDisconnectReason) }
-            .sendMessage(Messages.DebugLogging.DISCONNECT_REASON_LOG(WhPaperPlayer(e.player), e.reason.toString(), e.quitMessage()))
+            .sendMessage(Messages.DebugLogging.DISCONNECT_REASON_LOG(WhPaperPlayer(e.player), e.reason.pretty))
     }
 }
