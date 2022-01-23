@@ -25,6 +25,7 @@ import net.kyori.adventure.text.format.Style.style
 import net.kyori.adventure.text.format.TextDecoration.*
 import net.wolvhaven.core.common.player.WhPlayer
 import net.wolvhaven.core.common.player.WhUser
+import net.wolvhaven.core.common.util.pretty
 
 object Messages {
     val PREFIX = prefix()
@@ -240,18 +241,12 @@ object Messages {
         /**
          * Reason, kick message
          */
-        val DISCONNECT_REASON_LOG: Args3<WhPlayer<*>, String, Component?> = { p, r, m ->
-            val tmp = empty()
+        val DISCONNECT_REASON_LOG: Args2<WhPlayer<*>, String> = { p, r ->
+            empty()
                 .append(prefix())
                 .append(text(p.name, style(BOLD)))
                 .append(text(" D/Ced: "))
-                .append(text(r, style(BOLD)))
-            if (m != null) tmp
-                .append(newline())
-                .append(prefix())
-                .append(text("Kick message: "))
-                .append(m)
-            else tmp
+                .append(r.pretty)
         }
     }
 }

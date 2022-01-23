@@ -32,6 +32,9 @@ fun pretty(t: Any?): Component {
         null -> text("Null")
         is PrettyPrintable -> t.pretty
         is Boolean -> pretty(t)
+        is Enum<*> -> {
+            text(t.name.lowercase().replaceFirstChar { it.uppercase() })
+        }
         else -> text(t.toString())
     }
 }
