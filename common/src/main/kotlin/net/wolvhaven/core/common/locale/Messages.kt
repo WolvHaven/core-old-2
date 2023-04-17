@@ -236,19 +236,6 @@ object Messages {
                 .append(text("Couldn't give you the item! Is your inventory full?"))
         }
     }
-
-    object DebugLogging {
-        /**
-         * Reason, kick message
-         */
-        val DISCONNECT_REASON_LOG: Args2<WhPlayer<*>, Component> = { p, r ->
-            empty()
-                .append(prefix())
-                .append(text(p.name, style(BOLD)))
-                .append(text(" D/Ced: "))
-                .append(r)
-        }
-    }
 }
 
 /**
