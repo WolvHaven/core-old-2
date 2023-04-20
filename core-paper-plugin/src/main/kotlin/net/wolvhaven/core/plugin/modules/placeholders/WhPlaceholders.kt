@@ -16,23 +16,19 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.wolvhaven.core.common.paper.plugins
+package net.wolvhaven.core.plugin.modules.placeholders
 
-import com.earth2me.essentials.Essentials
-import net.wolvhaven.core.common.paper.plugins.WhEssentials.afk
-import net.wolvhaven.core.common.paper.server.getPlugin
-import net.wolvhaven.core.common.paper.util.PlayerCollection
-import org.bukkit.entity.Player
+import net.wolvhaven.core.plugin.WhCorePlugin
+import net.wolvhaven.core.plugin.modules.WhModule
 
-object WhEssentials {
-    val essentials get() = getPlugin<Essentials>()
-
-    val Player.essx get() = essentials.getUser(this)
-
-    var Player.afk
-        get() = this.essx.isAfk
-        set(value) { this.essx.isAfk = value }
-
-    val PlayerCollection.afk get() = this.filter { it.afk }
-    val PlayerCollection.notAfk get() = this.filter { !it.afk }
+class WhPlaceholders(val plugin: WhCorePlugin) : WhModule {
+    val core = WhCorePlaceholderExpansion(this)
+    init {
+        plugin.server.pluginManager.getPlugin("PlaceholderAPI")
+            ?: throw IllegalStateException("PlaceholderAPI not installed!")
+        core.register()
+    }
+    override fun disable() {
+        core.unregister()
+    }
 }

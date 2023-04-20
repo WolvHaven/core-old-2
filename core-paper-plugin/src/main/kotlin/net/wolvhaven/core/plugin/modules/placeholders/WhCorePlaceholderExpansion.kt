@@ -16,48 +16,41 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.wolvhaven.core.plugin.modules
+package net.wolvhaven.core.plugin.modules.placeholders
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion
 import net.wolvhaven.core.common.paper.plugins.WhEssentials.afk
 import net.wolvhaven.core.common.paper.plugins.WhVanishNoPacket.canSee
 import net.wolvhaven.core.common.paper.plugins.WhVanishNoPacket.unvanished
 import net.wolvhaven.core.common.paper.plugins.WhVanishNoPacket.vanished
-import net.wolvhaven.core.common.paper.util.playerCollection
-import net.wolvhaven.core.plugin.WhCorePlugin
+import net.wolvhaven.core.common.paper.util.onlinePlayers
 import org.bukkit.Bukkit
+import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
 
-class WhPlaceholders(private val plugin: WhCorePlugin) : PlaceholderExpansion(), WhModule {
-    init {
-        plugin.server.pluginManager.getPlugin("PlaceholderAPI")
-            ?: throw IllegalStateException("PlaceholderAPI not installed!")
-        this.register()
-    }
-
+class WhCorePlaceholderExpansion(private val placeholders: WhPlaceholders) : PlaceholderExpansion() {
     override fun getIdentifier() = "wh"
 
     override fun getAuthor() = "Underscore11"
 
-    override fun getVersion() = plugin.description.version
-
-    override fun onPlaceholderRequest(player: Player?, params: String): String? {
-        if (player == null) return null
-        return when (params) {
+    override fun getVersion() = placeholders.plugin.description.version
+    override fun onRequest(player: OfflinePlayer?, params: String): String? {
+        when (params) {
             "online" -> {
-                val players = Bukkit.getOnlinePlayers().toMutableSet().playerCollection.canSee(player)
-                var out = "&f${players.unvanished}"
-                if (players.vanished != 0) out += "&b+${players.vanished}"
-                if (players.afk != 0) out += "&7-${players.afk}"
+                val players = if (player != null && player is Player) onlinePlayers.canSee(player) else onlinePlayers.unvanished
+                var out = "&f${players.unvanished.size}"
+                if (players.vanished.isNotEmpty()) out += "&b+${players.vanished.size}"
+                if (players.afk.isNotEmpty()) out += "&7-${players.afk.size}"
                 out += "&f/${Bukkit.getMaxPlayers()}"
-                out
+                return out
             }
-            "isvanished" -> if (player.vanished) "&b[V]" else ""
-            else -> null
         }
-    }
-
-    override fun disable() {
-        unregister()
+        if (player == null) return null
+        if (player !is Player) return null
+        when (params) {
+            "isvanished" -> return if (player.vanished) "&b[V]" else ""
+            "isafk" -> return if (player.afk) "&7[AFK]" else ""
+        }
+        return null
     }
 }

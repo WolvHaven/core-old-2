@@ -25,7 +25,7 @@ import net.wolvhaven.core.plugin.modules.Core
 import net.wolvhaven.core.plugin.modules.InvisibleItemFrames
 import net.wolvhaven.core.plugin.modules.TrainDestroy
 import net.wolvhaven.core.plugin.modules.WhModule
-import net.wolvhaven.core.plugin.modules.WhPlaceholders
+import net.wolvhaven.core.plugin.modules.placeholders.WhPlaceholders
 
 @Suppress("unused")
 class WhCorePlugin(bootstrap: WhCoreBootstrap) : WhPaperPlugin(bootstrap) {
